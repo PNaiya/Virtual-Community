@@ -1,55 +1,27 @@
-import React from 'react'
-import { useRoutes, Link } from 'react-router-dom'
-import Locations from './pages/Locations'
-import LocationEvents from './pages/LocationEvents'
-import Events from './pages/Events'
-import './App.css'
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import Locations from "./pages/Locations";
+import Events from "./pages/Events";
+import AddLocation from "./pages/AddLocation";
+import AddEvent from "./pages/AddEvent";
+import Layout from "./components/Layout";
 
-const App = () => {
-  let element = useRoutes([
-    {
-      path: '/',
-      element: <Locations />
-    },
-    {
-      path: '/echolounge',
-      element: <LocationEvents index={1} />
-    },
-    {
-      path: '/houseofblues',
-      element: <LocationEvents index={2} />
-    },
-    {
-      path: '/pavilion',
-      element: <LocationEvents index={3} />
-    },
-    {
-      path: '/americanairlines',
-      element: <LocationEvents index={4} />
-    },
-    {
-      path: '/events',
-      element: <Events />
-    }
-  ])
-
+export default function App() {
   return (
-    <div className='app'>
+    <BrowserRouter>
+      <nav style={{ padding: 20, background: "#eee", marginBottom: 20 }}>
+        <Link to="/" style={{ marginRight: 20 }}>Locations</Link>
+        <Link to="/events">Events</Link>
+      </nav>
 
-      <header className='main-header'>
-        <h1>UnityGrid Plaza</h1>
-
-        <div className='header-buttons'>
-          <Link to='/' role='button'>Home</Link>
-          <Link to='/events' role='button'>Events</Link>
-        </div>
-      </header>
-
-      <main>
-        {element}
-      </main>
-    </div>
-  )
+      <Layout>
+      <Routes>
+        <Route path="/" element={<Locations />} />
+        <Route path="/events" element={<Events />} />
+        <Route path="/locations/:id" element={<LocationDetails />} />
+        <Route path="/add-location" element={<AddLocation />} />
+        <Route path="/add-event" element={<AddEvent />} />
+      </Routes>
+      </Layout>
+    </BrowserRouter>
+  );
 }
-
-export default App

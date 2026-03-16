@@ -1,36 +1,50 @@
-import express from 'express'
-import path from 'path'
-import favicon from 'serve-favicon'
-import dotenv from 'dotenv'
+import dotenv from "dotenv";
+dotenv.config();
 
-// import the router from your routes file
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
+import favicon from "serve-favicon";
 
+import locationsRouter from "./routes/locationsRoutes.js";
+import eventsRouter from "./routes/eventsRoutes.js";
 
-dotenv.config()
+const PORT = process.env.PORT || 3000;
+const app = express();
 
-const PORT = process.env.PORT || 3000
+app.use(express.json());
 
-const app = express()
-
-app.use(express.json())
-
-if (process.env.NODE_ENV === 'development') {
-    app.use(favicon(path.resolve('../', 'client', 'public', 'party.png')))
+// Development favicon
+if (process.env.NODE_ENV === "development") {
+    app.use(favicon(path.resolve("../", "client", "public", "party.png")));
 }
-else if (process.env.NODE_ENV === 'production') {
-    app.use(favicon(path.resolve('public', 'party.png')))
-    app.use(express.static('public'))
+// Production favicon + static files
+else if (process.env.NODE_ENV === "production") {
+    app.use(favicon(path.resolve("public", "party.png")));
+    app.use(express.static("public"));
 }
 
-// specify the api path for the server to use
+// Register API routes
+app.use("/api", locationsRouter);
+app.use("/api", eventsRouter);
 
-
-if (process.env.NODE_ENV === 'production') {
-    app.get('/*', (_, res) =>
-        res.sendFile(path.resolve('public', 'index.html'))
-    )
+// Serve frontend in production
+if (process.env.NODE_ENV === "production") {
+    app.get("/*", (_, res) =>
+        res.sendFile(path.resolve("public", "index.html"))
+    );
 }
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Serve the React build folder
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+});
 
 app.listen(PORT, () => {
-    console.log(`server listening on http://localhost:${PORT}`)
-})
+    console.log(`server listening on http://localhost:${PORT}`);
+});
