@@ -16,11 +16,11 @@ app.use(express.json());
 
 // Development favicon
 if (process.env.NODE_ENV === "development") {
-    app.use(favicon(path.resolve("../", "client", "public", "party.png")));
+   // app.use(favicon(path.resolve("../", "client", "public", "party.png")));
 }
 // Production favicon + static files
 else if (process.env.NODE_ENV === "production") {
-    app.use(favicon(path.resolve("public", "party.png")));
+   // app.use(favicon(path.resolve("public", "party.png")));
     app.use(express.static("public"));
 }
 
