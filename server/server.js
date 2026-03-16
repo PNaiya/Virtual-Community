@@ -24,7 +24,7 @@ const __dirname = path.dirname(__filename);
   Your Vite build outputs to: server/public/
   So we serve that folder directly.
 */
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "public_build")));
 
 // API routes
 app.use("/api", locationsRouter);
@@ -36,7 +36,7 @@ app.use("/api", eventsRouter);
   ---------------------------------------------------------
 */
 app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+    res.sendFile(path.join(__dirname, "public_build", "index.html"));
 });
 
 // Start server
