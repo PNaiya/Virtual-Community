@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchLocation, fetchEventsByLocation } from "../api";
 
+console.log("ID:", id);
+console.log("Location:", location);
+console.log("Events:", events);
+
 export default function LocationDetails() {
   const { id } = useParams();
   const [location, setLocation] = useState(null);
