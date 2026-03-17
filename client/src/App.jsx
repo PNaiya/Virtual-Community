@@ -4,6 +4,7 @@ import Events from "./pages/Events";
 import AddLocation from "./pages/AddLocation";
 import AddEvent from "./pages/AddEvent";
 import Layout from "./components/Layout";
+import LocationDetails from "./pages/LocationDetails";
 
 export default function App() {
   return (
